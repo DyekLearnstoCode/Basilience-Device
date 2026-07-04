@@ -1,0 +1,42 @@
+#define TDS_PIN A0
+
+const int ADC_ZERO = 27;
+const int ADC_REF = 346;
+const float EC_REF = 1.413;
+
+void setup() {
+  Serial.begin(115200);
+}
+
+void loop() {
+
+  long total = 0;
+
+  for (int i = 0; i < 30; i++) {
+    total += analogRead(TDS_PIN);
+    delay(10);
+  }
+
+  int adc = total / 30;
+
+  float ec = ((float)(adc - ADC_ZERO) * EC_REF) /
+             (ADC_REF - ADC_ZERO);
+
+  if (ec < 0)
+    ec = 0;
+
+  float ppm = ec * 500.0;
+
+  Serial.println("-------------------------");
+  Serial.print("ADC : ");
+  Serial.println(adc);
+
+  Serial.print("EC  : ");
+  Serial.print(ec, 3);
+  Serial.println(" mS/cm");
+
+  Serial.print("PPM : ");
+  Serial.println(ppm, 0);
+
+  delay(2000);
+}
