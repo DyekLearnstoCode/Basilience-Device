@@ -102,8 +102,8 @@ class SensorModule
 
 private:
 
-    OneWire oneWire;
-    DallasTemperature ds18b20;
+    OneWire* oneWire;
+    DallasTemperature* ds18b20;
 
     SensorData data;
 
@@ -126,6 +126,7 @@ private:
 public:
 
     SensorModule();
+    ~SensorModule();
 
     //--------------------------------------------------
 
